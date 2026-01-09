@@ -25,8 +25,35 @@ class ArtistController extends Controller
         $artist = new Artist();
         $artist->name = trim($request->artist_name);
         $artist->country = trim($request->country);
-        $artist->img_path = trim($request->img_path);
+        $artist->img_path = trim($request->image);
         $artist->save();
-        return "artist saved";
+        // return "artist saved";
+        // return redirect('/artists');
+        return redirect()->route('artists.index');
+    }
+
+    public function edit($id){
+        // /artist/1/edit
+        // dd($id);
+        $artist = Artist::find($id);
+        return view('artist.edit', compact('artist'));
+    }
+
+    public function update(Request $request, $id){
+        // dd($request, $id);
+        $artist = Artist::find($id);
+        $artist->name = trim($request->name);
+        $artist->country = trim($request->country);
+        $artist->img_path = trim($request->image);
+        $artist->save();
+        // return redirect('/artists');
+        // return "artist updated";
+        return redirect()->route('artists.index');
+    }
+
+    public function delete($id){
+        //
+        Artist::destroy($id);
+        return redirect('/artists');
     }
 }
